@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="suzor.user.repository.UserRepository">
+    <resultMap id="baseRM" type="suzor.user.model.po.UserPO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id,user_id,username,gmt_create,gmt_modified
+    </sql>
+
+    <insert id="insertThenGetId" useGeneratedKeys="true" keyProperty="id">
+        insert into user (<include refid="baseColumn"/>) values
+        (#{id},REPLACE(UUID(),'-',''),#{username},current_time,#{gmtModified});
+    </insert>
+
+    <select id="findById" resultMap="baseRM">
+        select
+        <include refid="baseColumn"/>
+        from user
+        where id = #{id}
+    </select>
+
+    <select id="findByUserId" resultMap="baseRM">
+        select
+        <include refid="baseColumn"/>
+        from user
+        where user_id = #{userId}
+    </select>
+</mapper>
