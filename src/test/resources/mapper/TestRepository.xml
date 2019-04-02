@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="framework.mybatis.repository.TestRepository">
+    <resultMap id="baseRM" type="framework.mybatis.TestPO">
+        <id column="id" property="id"/>
+        <result column="text" property="text"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,text,gmt_create,gmt_modified
+    </sql>
+
+    <insert id="add">
+        insert into test (<include refid="columns"/>) values
+        (#{id},REPLACE(UUID(),'-',''),current_time,#{gmtModified})
+    </insert>
+
+    <select id="select" resultMap="baseRM">
+        select
+        <include refid="columns"/>
+        from user
+        where id = #{id}
+    </select>
+</mapper>

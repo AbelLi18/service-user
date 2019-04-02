@@ -1,4 +1,4 @@
-package suzor.user.api;
+package suzor.user.api.web;
 
 import com.google.common.base.Strings;
 import io.swagger.annotations.Api;
