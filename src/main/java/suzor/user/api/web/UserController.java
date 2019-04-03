@@ -3,12 +3,14 @@ package suzor.user.api.web;
 import com.google.common.base.Strings;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import suzor.user.common.exception.ApiArgumentException;
 import suzor.user.common.exception.ApiResultException;
 import suzor.user.model.dto.ApiResultDTO;
 import suzor.user.model.dto.SnakeCaseApiResultDTO;
+import suzor.user.model.dto.SnakeCaseUserDTO;
 import suzor.user.model.dto.UserDTO;
 import suzor.user.service.UserService;
 
@@ -19,19 +21,24 @@ import javax.validation.constraints.NotNull;
 @Api(value = "用户API")
 public class UserController {
     private final UserService userService;
+    private final Mapper dozerMapper;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, Mapper dozerMapper) {
         this.userService = userService;
+        this.dozerMapper = dozerMapper;
     }
 
     @ApiOperation(value = "获取用户的任务", notes = "获取用户的任务")
     @GetMapping("/userId/{userId}")
-    public SnakeCaseApiResultDTO<UserDTO> findByUserId(@NotNull @PathVariable String userId) throws ApiArgumentException, ApiResultException {
+    public SnakeCaseApiResultDTO<SnakeCaseUserDTO> findByUserId(@NotNull @PathVariable String userId) throws ApiArgumentException, ApiResultException {
         if (Strings.isNullOrEmpty(userId) || userId.length() != 32) {
             throw new ApiArgumentException("参数校验错误，userId 不符合要求");
         }
-        return new SnakeCaseApiResultDTO<>(userService.findByUserId(userId));
+        UserDTO userDTO = userService.findByUserId(userId);
+        SnakeCaseUserDTO snakeCaseUserDTO = new SnakeCaseUserDTO();
+        dozerMapper.map(userDTO, snakeCaseUserDTO);
+        return new SnakeCaseApiResultDTO<>(snakeCaseUserDTO);
     }
 
     @PostMapping("/add")
