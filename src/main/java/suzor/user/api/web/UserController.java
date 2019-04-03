@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import suzor.user.common.exception.ApiArgumentException;
 import suzor.user.common.exception.ApiResultException;
 import suzor.user.model.dto.ApiResultDTO;
+import suzor.user.model.dto.SnakeCaseApiResultDTO;
 import suzor.user.model.dto.UserDTO;
 import suzor.user.service.UserService;
 
@@ -26,11 +27,11 @@ public class UserController {
 
     @ApiOperation(value = "获取用户的任务", notes = "获取用户的任务")
     @GetMapping("/userId/{userId}")
-    public ApiResultDTO<UserDTO> findByUserId(@NotNull @PathVariable String userId) throws ApiArgumentException, ApiResultException {
+    public SnakeCaseApiResultDTO<UserDTO> findByUserId(@NotNull @PathVariable String userId) throws ApiArgumentException, ApiResultException {
         if (Strings.isNullOrEmpty(userId) || userId.length() != 32) {
             throw new ApiArgumentException("参数校验错误，userId 不符合要求");
         }
-        return new ApiResultDTO<>(userService.findByUserId(userId));
+        return new SnakeCaseApiResultDTO<>(userService.findByUserId(userId));
     }
 
     @PostMapping("/add")

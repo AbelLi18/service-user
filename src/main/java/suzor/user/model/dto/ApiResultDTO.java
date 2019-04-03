@@ -1,10 +1,7 @@
 package suzor.user.model.dto;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import suzor.user.common.ApiResultCodeEnum;
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ApiResultDTO<T> {
     private String resultCode = ApiResultCodeEnum.SUCCESS.getCode();
     private String errorMsg;
