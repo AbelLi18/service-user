@@ -12,21 +12,25 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+
+
 public class Swagger2Config {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("suzor.user.api"))
+                .apis(RequestHandlerSelectors.basePackage("suzor.user.api.web"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("用户服务接口文档")
+                .title("接口测试文档")
+                .description("接口测试文档")
                 .version("1.0")
                 .build();
     }
+
 }

@@ -1,7 +1,11 @@
 package suzor.user.model.dto;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import java.io.Serializable;
 
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserDTO implements Serializable {
     /**
      * 用户ID
